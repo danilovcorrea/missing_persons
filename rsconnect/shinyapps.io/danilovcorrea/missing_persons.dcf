@@ -1,0 +1,12 @@
+name: missing_persons
+title: missing_persons
+username:
+account: danilovcorrea
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1279409
+bundleId: 2464654
+url: https://danilovcorrea.shinyapps.io/missing_persons/
+when: 1570086857.38633
+asMultiple: FALSE
+asStatic: FALSE
