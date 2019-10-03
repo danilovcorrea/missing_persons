@@ -1,3 +1,27 @@
+<style>
+body {
+    overflow: scroll;
+}
+</style>
+
+Missing Persons in Brazilian Federal District in 2018 (a Shiny app for the Coursera Course Project: Shiny Application and Reproducible Pitch)
+========================================================
+author: Danilo Correa
+date: October 3, 2019
+autosize: true
+
+2 - Shiny app documentation
+========================================================
+
+- This app plots a density radius based on the number of missing persons in each administrative division of Brazilian Federal District in 2018.
+- The density plot(s) can be drawn by sliding the 'n° of missing persons' or by choosing an Administrative Division. There are different color schemes available.
+- The public dataset is available here <http://www.dados.df.gov.br/dataset/por-regiao-administrativa/resource/48f9e674-d198-4b7d-bd83-0eea9516d687>
+
+3 - ui
+========================================================
+
+
+```r
 library(shiny)
 library(shinythemes)
 library(shinyWidgets)
@@ -8,21 +32,20 @@ library(RColorBrewer)
 missing.df <- read.csv(file = "data/missing.df.csv", encoding = "UTF-8")
 
 ui <- bootstrapPage(
-    tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
     theme = shinytheme("slate"),
     titlePanel("Missing Persons in Brazilian Federal District in 2018 (a Shiny app for the Coursera Course Project: Shiny Application and Reproducible Pitch)"),
     mainPanel(h3(span("Author: Danilo Correa"),a("(danilo.vcorrea@gmail.com)", href = "mailto:daattali@gmail.com")),
               br(),
               p("This app plots a density radius based on the number of missing persons in each administrative division of Brazilian Federal District in 2018."),
               p("The density plot(s) can be drawn by sliding the 'n° of missing persons' or by choosing an Administrative Division. There are different color schemes available."),
-              p("The public dataset is available", a(href="http://www.dados.df.gov.br/dataset/por-regiao-administrativa/resource/48f9e674-d198-4b7d-bd83-0eea9516d687", "here.")),
-              p("You can drag the 'absolute panel' and put it where you want (useful considering different resolution displays).")
+              p("The public dataset is available", a(href="http://www.dados.df.gov.br/dataset/por-regiao-administrativa/resource/48f9e674-d198-4b7d-bd83-0eea9516d687", "here."))
     ),
     setSliderColor("red", 1),
     chooseSliderSkin("Flat"),
-    leafletOutput("map",  width = "100%", height = 400),
+    tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
+    leafletOutput("map", width = "80%", height = "50%"),
     img(src = "missing_neg.png", style="float:right"),
-    absolutePanel(bottom = 0, left = 10,
+    absolutePanel(top = 220, right = 10,
                   sliderInput("range", "N°of missing persons", min(missing.df$missing), max(missing.df$missing),
                               value = range(missing.df$missing),  
                               dragRange = TRUE, ticks = TRUE
@@ -37,7 +60,13 @@ ui <- bootstrapPage(
                   checkboxInput("legend", "Show legend", TRUE), style="z-index:500;", draggable = TRUE 
     )
 )
+```
 
+4 - server
+========================================================
+
+
+```r
 server <- function(input, output, session) {
     
     # n° of missing persons:
@@ -45,7 +74,7 @@ server <- function(input, output, session) {
         missing.df[missing.df$missing >= input$range[1] & missing.df$missing <= input$range[2],]
     })
     
-    # Administrative Divisions:
+    # county:
     filteredData2 <- reactive({
         missing.df[missing.df$county == input$county,]
     })
@@ -62,7 +91,7 @@ server <- function(input, output, session) {
     })
     
     # Incremental changes to the map:
-    # addCircles density radius by n° of missing persons:
+    # addCircles by n° of missing persons:
     observe({
         pal <- colorpal()
         
@@ -72,7 +101,7 @@ server <- function(input, output, session) {
                        fillColor = ~pal(missing), fillOpacity = 0.7, popup = ~paste(county,": ", missing, sep = "")
             )
     })
-    # addCircles density radius by n° of missing persons per Administrative Divisions:
+    # addCircles by county:
     observe({
         pal <- colorpal()
         
@@ -98,4 +127,10 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+```
+
+5 - Loaded app
+========================================================
+
+![alt text](screen.png)
 

@@ -5,8 +5,8 @@ account: danilovcorrea
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1279409
-bundleId: 2464654
+bundleId: 2466243
 url: https://danilovcorrea.shinyapps.io/missing_persons/
-when: 1570086857.38633
+when: 1570125133.4564
 asMultiple: FALSE
 asStatic: FALSE
