@@ -6,4 +6,4 @@ This app plots a density radius based on the number of missing persons in each a
 
 The density plot(s) can be drawn by sliding the 'n° of missing persons' or by choosing an Administrative Division. There are different color schemes available.
 
-The public dataset is available [here]("http://www.dados.df.gov.br/dataset/por-regiao-administrativa/resource/48f9e674-d198-4b7d-bd83-0eea9516d687).
+The public dataset is available [here](http://www.dados.df.gov.br/dataset/por-regiao-administrativa/resource/48f9e674-d198-4b7d-bd83-0eea9516d687).
